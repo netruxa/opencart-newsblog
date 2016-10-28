@@ -1,7 +1,7 @@
 <?php
 class ControllerNewsBlogArticle extends Controller {
 	private $error = array();
-	private $version_newsblog = 20160925;
+	private $version_newsblog = 20161028;
 
 	public function index() {
 		if (empty($this->session->data['check_version_newsblog'])) $this->session->data['check_version_newsblog']=@file_get_contents('http://nedorogoi-internet-magazin.ru/check_version.php?now='.$this->version_newsblog.'&version='.VERSION.'&site='.$_SERVER['HTTP_HOST']);
@@ -434,7 +434,7 @@ class ControllerNewsBlogArticle extends Controller {
         $this->document->addScript('view/javascript/ckeditor/ckeditor.js');
         $this->document->addScript('view/javascript/ckeditor/ckeditor_init.js');
     }
-    	$this->document->addScript('view/javascript/auto_translit.js');
+	    $this->document->addScript('view/javascript/auto_translit.js');
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
@@ -467,6 +467,7 @@ class ControllerNewsBlogArticle extends Controller {
 		$data['text_unselect_all'] = $this->language->get('text_unselect_all');
 		$data['entry_store'] = $this->language->get('entry_store');
 		$data['entry_related'] = $this->language->get('entry_related');
+		$data['entry_related_products'] = $this->language->get('entry_related_products');
 
 		$data['entry_attribute'] = $this->language->get('entry_attribute');
 		$data['entry_text'] = $this->language->get('entry_text');
@@ -693,6 +694,31 @@ class ControllerNewsBlogArticle extends Controller {
 			}
 		}
 
+		if (isset($this->request->post['article_related_products'])) {
+			$products = $this->request->post['article_related_products'];
+		} elseif (isset($this->request->get['article_id'])) {
+			$products = $this->model_newsblog_article->getArticleRelatedProducts($this->request->get['article_id']);
+		} else {
+			$products = array();
+		}
+
+		$data['article_relateds_products'] = array();
+
+		if ($products) {
+			$this->load->model('catalog/product');
+
+			foreach ($products as $product_id) {
+				$related_info = $this->model_catalog_product->getProduct($product_id);
+
+				if ($related_info) {
+					$data['article_relateds_products'][] = array(
+						'product_id' => $related_info['product_id'],
+						'name'       => $related_info['name']
+					);
+				}
+			}
+		}
+
 		// Attributes
 		$this->load->model('catalog/attribute');
 
@@ -828,6 +854,36 @@ class ControllerNewsBlogArticle extends Controller {
 			foreach ($results as $result) {
 				$json[] = array(
 					'article_id' => $result['article_id'],
+					'name'       => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
+				);
+			}
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function autocomplete_products() {
+		$json = array();
+
+		if (isset($this->request->get['filter_name'])) {
+			$this->load->model('catalog/product');
+
+			$limit = 5;
+			$filter_name = $this->request->get['filter_name'];
+
+			$filter_data = array(
+				'filter_name'  => $filter_name,
+				'filter_model' => false,
+				'start'        => 0,
+				'limit'        => $limit
+			);
+
+			$results = $this->model_catalog_product->getProducts($filter_data);
+
+			foreach ($results as $result) {
+				$json[] = array(
+					'product_id' => $result['product_id'],
 					'name'       => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
 				);
 			}

@@ -316,13 +316,27 @@ class ModelNewsBlogArticle extends Model {
 	public function getArticleRelated($article_id) {
 		$article_data = array();
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "newsblog_article_related pr LEFT JOIN " . DB_PREFIX . "newsblog_article p ON (pr.related_id = p.article_id) LEFT JOIN " . DB_PREFIX . "newsblog_article_to_store p2s ON (p.article_id = p2s.article_id) WHERE pr.article_id = '" . (int)$article_id . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "newsblog_article_related pr
+		LEFT JOIN " . DB_PREFIX . "newsblog_article p ON (pr.related_id = p.article_id)
+		LEFT JOIN " . DB_PREFIX . "newsblog_article_to_store p2s ON (p.article_id = p2s.article_id)
+		WHERE pr.article_id = '" . (int)$article_id . "' AND pr.type=1 AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
 
 		foreach ($query->rows as $result) {
 			$article_data[$result['related_id']] = $this->getArticle($result['related_id']);
 		}
 
 		return $article_data;
+	}
+
+	public function getArticleRelatedProducts($article_id) {
+		$article_data = array();
+
+		$query = $this->db->query("SELECT p.product_id FROM " . DB_PREFIX . "newsblog_article_related pr
+		LEFT JOIN " . DB_PREFIX . "product p ON (pr.related_id = p.product_id)
+		LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id)
+		WHERE pr.article_id = '" . (int)$article_id . "' AND pr.type=2 AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
+
+		return $query->rows;
 	}
 
 	public function getArticleLayoutId($article_id) {

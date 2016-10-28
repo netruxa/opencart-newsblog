@@ -39,6 +39,7 @@ $_['entry_main_category'] 	= 'Main category';
 $_['entry_category'] 		= 'Show categories:';
 $_['entry_store'] 			= 'Stores';
 $_['entry_related'] 		= 'Related Articles';
+$_['entry_related_products']= 'Related Products';
 
 $_['entry_attribute'] 		= 'Attribute';
 $_['entry_attribute_group'] = 'Group attributes:';

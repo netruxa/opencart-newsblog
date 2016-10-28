@@ -189,6 +189,7 @@ class ControllerModuleNewsBlogArticles extends Controller {
 			'a.sort_order'		=> $this->language->get('sort_by_sort_order'),
 			'ad.name'			=> $this->language->get('sort_by_name'),
 			'a.viewed'			=> $this->language->get('sort_by_viewed'),
+			'rand()'			=> $this->language->get('sort_by_rand'),
 		);
 
 		if (isset($this->request->post['sort_by'])) {
@@ -196,7 +197,7 @@ class ControllerModuleNewsBlogArticles extends Controller {
 		} elseif (!empty($module_info)) {
 			$data['sort_by'] = $module_info['sort_by'];
 		} else {
-			$data['sort_by'] = 'a.sort_order';
+			$data['sort_by'] = 'a.date_available';
 		}
 
 		$data['sort_direction_array'] = array (

@@ -229,13 +229,26 @@
               </div>
 
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-related"><span data-toggle="tooltip" title="<?php echo $help_related; ?>"><?php echo $entry_related; ?></span></label>
+                <label class="col-sm-2 control-label" for="input-related"><?php echo $entry_related; ?></label>
                 <div class="col-sm-10">
                   <input type="text" name="related" value="" placeholder="<?php echo $entry_related; ?>" id="input-related" class="form-control" />
                   <div id="article-related" class="well well-sm" style="height: 150px; overflow: auto;">
                     <?php foreach ($article_relateds as $article_related) { ?>
                     <div id="article-related<?php echo $article_related['article_id']; ?>"><i class="fa fa-minus-circle"></i> <?php echo $article_related['name']; ?>
                       <input type="hidden" name="article_related[]" value="<?php echo $article_related['article_id']; ?>" />
+                    </div>
+                    <?php } ?>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-related"><?php echo $entry_related_products; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="related_products" value="" placeholder="<?php echo $entry_related_products; ?>" id="input-related_products" class="form-control" />
+                  <div id="article-related_products" class="well well-sm" style="height: 150px; overflow: auto;">
+                    <?php foreach ($article_relateds_products as $article_related_products) { ?>
+                    <div id="article-related<?php echo $article_related_products['product_id']; ?>"><i class="fa fa-minus-circle"></i> <?php echo $article_related_products['name']; ?>
+                      <input type="hidden" name="article_related_products[]" value="<?php echo $article_related_products['product_id']; ?>" />
                     </div>
                     <?php } ?>
                   </div>

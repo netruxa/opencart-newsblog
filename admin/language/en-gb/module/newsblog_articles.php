@@ -39,5 +39,6 @@ $_['sort_by_date_available']= 'by publication date';
 $_['sort_by_sort_order'] 	= 'by the order';
 $_['sort_by_name'] 			= 'by name';
 $_['sort_by_viewed'] 		= 'by viewed';
+$_['sort_by_rand'] 			= 'by random';
 $_['sort_direction_desc'] 	= 'descending';
 $_['sort_direction_asc'] 	= 'ascending';

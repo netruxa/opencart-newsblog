@@ -51,10 +51,19 @@ class ModelNewsBlogArticle extends Model {
 
 		if (isset($data['article_related'])) {
 			foreach ($data['article_related'] as $related_id) {
-				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$article_id . "' AND related_id = '" . (int)$related_id . "'");
-				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$article_id . "', related_id = '" . (int)$related_id . "'");
-				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$related_id . "' AND related_id = '" . (int)$article_id . "'");
-				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$related_id . "', related_id = '" . (int)$article_id . "'");
+				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$article_id . "' AND related_id = '" . (int)$related_id . "' AND type=1");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$article_id . "', related_id = '" . (int)$related_id . "', type=1");
+				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$related_id . "' AND related_id = '" . (int)$article_id . "' AND type=1");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$related_id . "', related_id = '" . (int)$article_id . "', type=1");
+			}
+		}
+
+		if (isset($data['article_related_products'])) {
+			foreach ($data['article_related_products'] as $related_id) {
+				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$article_id . "' AND related_id = '" . (int)$related_id . "' AND type=2");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$article_id . "', related_id = '" . (int)$related_id . "', type=2");
+				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$related_id . "' AND related_id = '" . (int)$article_id . "' AND type=2");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$related_id . "', related_id = '" . (int)$article_id . "', type=2");
 			}
 		}
 
@@ -135,10 +144,19 @@ class ModelNewsBlogArticle extends Model {
 
 		if (isset($data['article_related'])) {
 			foreach ($data['article_related'] as $related_id) {
-				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$article_id . "' AND related_id = '" . (int)$related_id . "'");
-				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$article_id . "', related_id = '" . (int)$related_id . "'");
-				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$related_id . "' AND related_id = '" . (int)$article_id . "'");
-				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$related_id . "', related_id = '" . (int)$article_id . "'");
+				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$article_id . "' AND related_id = '" . (int)$related_id . "' AND type=1");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$article_id . "', related_id = '" . (int)$related_id . "', type=1");
+				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$related_id . "' AND related_id = '" . (int)$article_id . "' AND type=1");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$related_id . "', related_id = '" . (int)$article_id . "', type=1");
+			}
+		}
+
+		if (isset($data['article_related_products'])) {
+			foreach ($data['article_related_products'] as $related_id) {
+				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$article_id . "' AND related_id = '" . (int)$related_id . "' AND type=2");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$article_id . "', related_id = '" . (int)$related_id . "', type=2");
+				$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$related_id . "' AND related_id = '" . (int)$article_id . "' AND type=2");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article_related SET article_id = '" . (int)$related_id . "', related_id = '" . (int)$article_id . "', type=2");
 			}
 		}
 
@@ -179,6 +197,7 @@ class ModelNewsBlogArticle extends Model {
 			$data['article_description'] = $this->getArticleDescriptions($article_id);
 			$data['article_image'] = $this->getArticleImages($article_id);
 			$data['article_related'] = $this->getArticleRelated($article_id);
+			$data['article_related_products'] = $this->getArticleRelatedProducts($article_id);
 			$data['article_category'] = $this->getArticleCategories($article_id);
 			$data['article_layout'] = $this->getArticleLayouts($article_id);
 			$data['article_store'] = $this->getArticleStores($article_id);
@@ -195,7 +214,7 @@ class ModelNewsBlogArticle extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_description WHERE article_id = '" . (int)$article_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_image WHERE article_id = '" . (int)$article_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$article_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE related_id = '" . (int)$article_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_related WHERE related_id = '" . (int)$article_id . "' and type=1");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_to_category WHERE article_id = '" . (int)$article_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_to_layout WHERE article_id = '" . (int)$article_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_to_store WHERE article_id = '" . (int)$article_id . "'");
@@ -399,6 +418,18 @@ class ModelNewsBlogArticle extends Model {
 		$article_related_data = array();
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$article_id . "'");
+
+		foreach ($query->rows as $result) {
+			$article_related_data[] = $result['related_id'];
+		}
+
+		return $article_related_data;
+	}
+
+	public function getArticleRelatedProducts($article_id) {
+		$article_related_data = array();
+
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "newsblog_article_related WHERE article_id = '" . (int)$article_id . "' and type = 2");
 
 		foreach ($query->rows as $result) {
 			$article_related_data[] = $result['related_id'];

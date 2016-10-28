@@ -85,6 +85,8 @@ class ControllerNewsBlogCategory extends Controller {
 			$data['text_refine'] = $this->language->get('text_refine');
 			$data['text_attributes'] = $this->language->get('text_attributes');
 
+			$data['continue'] = $this->url->link('common/home');
+
 			// Set the last category breadcrumb
 			$data['breadcrumbs'][] = array(
 				'text' => $category_info['name'],

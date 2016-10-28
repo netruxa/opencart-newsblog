@@ -335,5 +335,8 @@ class ModelNewsBlogCategory extends Model {
 
 		//added in version 20160920
 		$this->db->query("ALTER TABLE `" . DB_PREFIX . "newsblog_category` ADD `settings` TEXT NOT NULL");
+
+		//added in version 20161028
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "newsblog_article_related` ADD  `type` INT( 1 ) NOT NULL");
 	}
 }

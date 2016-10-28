@@ -3,7 +3,7 @@ class ControllerNewsBlogCategory extends Controller {
 	private $error = array();
 	private $category_id = 0;
 	private $path = array();
-	private $version_newsblog = 20160925;
+	private $version_newsblog = 20161028;
 
 	public function index() {
 		if (empty($this->session->data['check_version_newsblog'])) $this->session->data['check_version_newsblog']=@file_get_contents('http://nedorogoi-internet-magazin.ru/check_version.php?now='.$this->version_newsblog.'&version='.VERSION.'&site='.$_SERVER['HTTP_HOST']);
@@ -245,8 +245,6 @@ class ControllerNewsBlogCategory extends Controller {
 				'delete'      		=> $this->url->link('newsblog/category/delete', 'token=' . $this->session->data['token'] . '&category_id=' . $result['category_id'] . $url, true)
 			);
 		}
-
-		$category_total = count($data['categories']);
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
