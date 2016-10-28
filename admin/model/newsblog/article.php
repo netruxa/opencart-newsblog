@@ -1,7 +1,6 @@
 <?php
 class ModelNewsBlogArticle extends Model {
 	public function addArticle($data) {
-		$this->event->trigger('pre.admin.newsblog.article.add', $data);
 
 		$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_article SET date_available = '" . $this->db->escape($data['date_available']) . "', status = '" . (int)$data['status'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_added = NOW()");
 
@@ -69,15 +68,12 @@ class ModelNewsBlogArticle extends Model {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'newsblog_article_id=" . (int)$article_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 		}
 
-		$this->cache->delete('article');
-
-		$this->event->trigger('post.admin.newsblog.article.add', $article_id);
+		//$this->cache->delete('article');
 
 		return $article_id;
 	}
 
 	public function editArticle($article_id, $data) {
-		$this->event->trigger('pre.admin.newsblog.article.edit', $data);
 
 		$this->db->query("UPDATE " . DB_PREFIX . "newsblog_article SET date_available = '" . $this->db->escape($data['date_available']) . "', status = '" . (int)$data['status'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_modified = NOW() WHERE article_id = '" . (int)$article_id . "'");
 
@@ -160,9 +156,8 @@ class ModelNewsBlogArticle extends Model {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'newsblog_article_id=" . (int)$article_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 		}
 
-		$this->cache->delete('article');
+		//$this->cache->delete('article');
 
-		$this->event->trigger('post.admin.newsblog.article.edit', $article_id);
 	}
 
 	public function copyarticle($article_id) {
@@ -194,7 +189,6 @@ class ModelNewsBlogArticle extends Model {
 	}
 
 	public function deletearticle($article_id) {
-		$this->event->trigger('pre.admin.newsblog.article.delete', $article_id);
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article WHERE article_id = '" . (int)$article_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_attribute WHERE article_id = '" . (int)$article_id . "'");
@@ -207,9 +201,8 @@ class ModelNewsBlogArticle extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_article_to_store WHERE article_id = '" . (int)$article_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'newsblog_article_id=" . (int)$article_id . "'");
 
-		$this->cache->delete('article');
+		//$this->cache->delete('article');
 
-		$this->event->trigger('post.admin.newsblog.article.delete', $article_id);
 	}
 
 	public function getArticle($article_id) {

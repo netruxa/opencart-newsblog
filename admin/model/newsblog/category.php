@@ -1,8 +1,6 @@
 <?php
 class ModelNewsBlogCategory extends Model {
 	public function addCategory($data,$settings) {
-		$this->event->trigger('pre.admin.newsblog.category.add', $data);
-
 		$this->db->query("INSERT INTO " . DB_PREFIX . "newsblog_category SET parent_id = '" . (int)$data['parent_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', date_added = NOW(), date_modified = NOW(), `settings` = '" . $this->db->escape($settings) . "'");
 
 		$category_id = $this->db->getLastId();
@@ -47,13 +45,11 @@ class ModelNewsBlogCategory extends Model {
 
 		$this->cache->delete('category');
 
-		$this->event->trigger('post.admin.newsblog.category.add', $category_id);
 
 		return $category_id;
 	}
 
 	public function editCategory($category_id, $data, $settings) {
-		$this->event->trigger('pre.admin.newsblog.category.edit', $data);
 
 		$this->db->query("UPDATE " . DB_PREFIX . "newsblog_category SET parent_id = '" . (int)$data['parent_id'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', date_modified = NOW(), `settings` = '" . $this->db->escape($settings) . "' WHERE category_id = '" . (int)$category_id . "'");
 
@@ -142,11 +138,9 @@ class ModelNewsBlogCategory extends Model {
 
 		$this->cache->delete('category');
 
-		$this->event->trigger('post.admin.newsblog.category.edit', $category_id);
 	}
 
 	public function deleteCategory($category_id) {
-		$this->event->trigger('pre.admin.newsblog.category.delete', $category_id);
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "newsblog_category_path WHERE category_id = '" . (int)$category_id . "'");
 
@@ -165,7 +159,6 @@ class ModelNewsBlogCategory extends Model {
 
 		$this->cache->delete('category');
 
-		$this->event->trigger('post.admin.newsblog.category.delete', $category_id);
 	}
 
 	public function repairCategories($parent_id = 0) {
